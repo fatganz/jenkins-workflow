@@ -2,6 +2,7 @@
 
 stage "develop"
 def branchName = env.BRANCH_NAME
+def pipeline
 String[] pipelineBranches = ['develop', 'master', 'qa']
 
 node {
@@ -9,12 +10,10 @@ node {
   std = load 'ci/scripts/std.groovy'
   print "Current branch: " + std.normalizeBranchName(branchName)
   if(pipelineBranches.contains(branchName)) {
-    print "doing production pipeline";
+    pipeline = load 'ci/scripts/production-pipeline.groovy'
   } else {
-    print "doing feature testing pipeline";
+    pipeline = load 'ci/scripts/feature-pipeline.groovy'
   }
 }
 
-stage "qa"
-
-stage "production"
+pipeline.go(branchName)
