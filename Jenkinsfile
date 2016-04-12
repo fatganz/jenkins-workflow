@@ -10,6 +10,8 @@ node {
   print "Current branch: " + std.normalizeBranchName(branchName)
   if(pipelineBranches.contains(branchName)) {
     print "doing production pipeline";
+  } else {
+    print "doing feature testing pipeline";
   }
 }
 
