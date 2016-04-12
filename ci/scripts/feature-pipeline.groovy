@@ -18,7 +18,7 @@ def go(String branchName) {
   input message: "Feature complte?", ok: "Yes"
 
   node {
-
+    sh "ci/deployment/merge-feature.sh"
   }
 }
 
