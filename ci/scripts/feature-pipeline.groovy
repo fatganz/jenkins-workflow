@@ -10,7 +10,16 @@ def go(String branchName) {
       utils.runTests()
   }
   stage "preview"
-  node {}
+  node {
+    sh "deployment/deploy-ft.sh"
+  }
+
+  stage "complete"
+  input message: "Feature complte?", ok: "Yes"
+
+  node {
+
+  }
 }
 
 return this
