@@ -3,9 +3,9 @@ def go(String branchName) {
   print "doing production pipeline";
   stage "qa"
   node {}
-    
+
   stage "production"
   node {}
 }
 
-print "doing production pipeline";
+return this
