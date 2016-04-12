@@ -1,4 +1,4 @@
-std = load 'std.groovy'
+std = load 'ci/scripts/std.groovy'
 
 def go(String branchName) {
   print "working with $branchName"
