@@ -6,7 +6,9 @@ def go(String branchName) {
   print "doing production pipeline";
 
   stage "testing"
-  utils.runTests()
+  node {
+    utils.runTests()
+  }
 
   stage "qa"
   node {}
