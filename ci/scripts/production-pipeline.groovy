@@ -2,19 +2,21 @@
 utils = load 'ci/scripts/utils.groovy'
 
 def go(String branchName) {
-  print "working with $branchName"
-  print "doing production pipeline";
-
   stage "testing"
   node {
     utils.runTests()
   }
 
   stage "qa"
-  node {}
+  node {
+    sh "ci/deployment/deploy-qa.sh"
+  }
 
   stage "production"
-  node {}
+  node {
+    sh "ci/deployment/deploy-prod.sh"
+  }
+
 }
 
 return this
