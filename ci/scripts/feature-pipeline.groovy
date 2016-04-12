@@ -27,9 +27,8 @@ def go(String branchName) {
       userRemoteConfigs:
       [[url: 'https://github.com/fatganz/jenkins-workflow.git']]]
     )
-    withCredentials([[$class: 'FileBinding', credentialsId: utils.githubCredentialId, variable: 'GIT_SSH']]) {
-      //merges feature and deletes feature branch
-      sh "env"
+    sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
+        sh 'ci/deployment/merge-feature.sh'
     }
   }
 }
