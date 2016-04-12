@@ -22,7 +22,6 @@ def go(String branchName) {
       sh "git fetch --all"
       sh "git checkout ${env.BRANCH_NAME}"
       sh 'ci/deployment/merge-feature.sh'
-      sh 'ci/deployment/merge-feature.sh'
     }
   }
 }
