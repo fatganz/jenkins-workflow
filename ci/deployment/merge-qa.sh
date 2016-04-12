@@ -6,8 +6,8 @@ git config user.name "Jenkins server"
 
 echo "Current branch is '$BRANCH_NAME'"
 
-if [ "develop" == "$BRANCH_NAME" ]; then
-    echo "You can't execute this script on develop branch!"
+if [ "qa" == "$BRANCH_NAME" ]; then
+    echo "You can't execute this script on QA branch!"
     exit 1;
 fi
 git fetch --all
