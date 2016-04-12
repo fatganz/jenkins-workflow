@@ -18,7 +18,7 @@ def go(String branchName) {
   input message: "Feature complte?", ok: "Yes"
 
   node {
-    #merges feature and deletes feature branch
+    //merges feature and deletes feature branch
     sh "ci/deployment/merge-feature.sh"
   }
 }
