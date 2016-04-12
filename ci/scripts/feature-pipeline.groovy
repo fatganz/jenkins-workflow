@@ -18,17 +18,18 @@ def go(String branchName) {
   input message: "Feature complte?", ok: "Yes"
 
   node {
-    checkout([
-      $class: 'GitSCM',
-      branches: [[name: env.BRANCH_NAME]],
-      doGenerateSubmoduleConfigurations: false,
-      extensions: [],
-      submoduleCfg: [],
-      userRemoteConfigs:
-      [[url: 'https://github.com/fatganz/jenkins-workflow.git']]]
-    )
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
-        sh 'ci/deployment/merge-feature.sh'
+      sh "git pull origin"
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: env.BRANCH_NAME]],
+        doGenerateSubmoduleConfigurations: false,
+        extensions: [],
+        submoduleCfg: [],
+        userRemoteConfigs:
+        [[url: 'git@github.com:fatganz/jenkins-workflow.git']]]
+      )
+      sh 'ci/deployment/merge-feature.sh'
     }
   }
 }
