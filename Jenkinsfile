@@ -1,13 +1,20 @@
 #!groovy
 
-stage "develop"
+def branchName = env.BRANCH_NAME
+def pipeline
+String[] pipelineBranches = ['master', 'qa']
 
 node {
   checkout scm
-  std = load 'ci/scripts/std.groovy'
-  print "Current branch: " + std.normalizeBranchName(env.BRANCH_NAME)
+  utils = load 'ci/scripts/utils.groovy'
+  print "Current branch: " + utils.normalizeBranchName(branchName)
+  if('develop' == branchName) {
+    pipeline = load 'ci/scripts/production-pipeline.groovy'
+  } else if (!pipelineBranches.contains(branchName)) {
+    pipeline = load 'ci/scripts/feature-pipeline.groovy'
+  }
 }
 
-stage "qa"
-
-stage "production"
+if(pipeline){
+  pipeline.go(branchName)
+}
