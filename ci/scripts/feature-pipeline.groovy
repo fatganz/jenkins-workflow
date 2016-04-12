@@ -11,7 +11,7 @@ def go(String branchName) {
   }
   stage "preview"
   node {
-    sh "deployment/deploy-ft.sh"
+    sh "ci/deployment/deploy-ft.sh"
   }
 
   stage "complete"

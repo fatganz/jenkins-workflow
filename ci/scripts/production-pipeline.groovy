@@ -9,12 +9,12 @@ def go(String branchName) {
 
   stage "qa"
   node {
-    sh "deployment/deploy-qa.sh"
+    sh "ci/deployment/deploy-qa.sh"
   }
 
   stage "production"
   node {
-    sh "deployment/deploy-prod.sh"
+    sh "ci/deployment/deploy-prod.sh"
   }
 
 }
