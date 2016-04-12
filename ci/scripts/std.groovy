@@ -1,7 +1,9 @@
 #!groovy
 
 def normalizeBranchName(String name) {
-    return name.replace("/","-").replace("_","-")
+    return name
+      .tr('/_','-')
+      .toLowerCase()
 }
 
 return this
