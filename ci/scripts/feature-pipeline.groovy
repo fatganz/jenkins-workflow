@@ -18,8 +18,10 @@ def go(String branchName) {
   input message: "Feature complte?", ok: "Yes"
 
   node {
-    git url: "git@github.com:fatganz/jenkins-workflow.git", branch: env.BRANCH_NAME
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
+      sh "git fetch --all"
+      sh "git checkout ${env.BRANCH_NAME}"
+      sh 'ci/deployment/merge-feature.sh'
       sh 'ci/deployment/merge-feature.sh'
     }
   }
