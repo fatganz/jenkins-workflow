@@ -4,3 +4,5 @@ def go(String branchName) {
   stage "preview"
   node {}
 }
+
+return this
