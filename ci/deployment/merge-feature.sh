@@ -11,5 +11,7 @@ fi
 
 git checkout develop
 git merge $BRANCH_NAME
+git commit -m "Merging branch ${env.BRANCH_NAME}"
+git tag -a some_tag -m "feature-${env.BUILD_NUMBER}"
 git branch -d $BRANCH_NAME
 git push origin :$BRANCH_NAME
