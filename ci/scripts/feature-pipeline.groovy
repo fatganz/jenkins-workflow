@@ -1,11 +1,11 @@
-def std = load 'ci/scripts/std.groovy'
+def scrpt = load 'ci/scripts/std.groovy'
 
 def go(String branchName) {
   print "working with $branchName"
   print "doing feature testing pipeline";
   stage "testing"
   node {
-      std.runTests()
+      scrpt.runTests()
   }
   stage "preview"
   node {}
