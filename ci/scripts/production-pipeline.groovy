@@ -1,11 +1,12 @@
-std = load 'ci/scripts/std.groovy'
+#!groovy
+utils = load 'ci/scripts/utils.groovy'
 
 def go(String branchName) {
   print "working with $branchName"
   print "doing production pipeline";
-  
+
   stage "testing"
-  std.runTests()
+  utils.runTests()
 
   stage "qa"
   node {}

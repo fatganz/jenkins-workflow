@@ -6,4 +6,8 @@ def normalizeBranchName(String name) {
       .toLowerCase()
 }
 
+def runTests() {
+  sh "tests/run.sh"
+}
+
 return this

@@ -1,3 +1,4 @@
+#!groovy
 
 def go(String branchName) {
   print "working with $branchName"
