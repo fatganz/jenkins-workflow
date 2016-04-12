@@ -1,11 +1,13 @@
 #!groovy
 
+utils = load 'ci/scripts/utils.groovy'
+
 def go(String branchName) {
   print "working with $branchName"
   print "doing feature testing pipeline";
   stage "testing"
   node {
-      std.runTests()
+      utils.runTests()
   }
   stage "preview"
   node {}
