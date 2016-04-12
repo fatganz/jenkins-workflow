@@ -1,6 +1,5 @@
 #!groovy
 
-stage "develop"
 def branchName = env.BRANCH_NAME
 def pipeline
 String[] pipelineBranches = ['develop', 'master', 'qa']

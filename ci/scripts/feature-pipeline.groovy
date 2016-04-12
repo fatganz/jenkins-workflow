@@ -4,8 +4,9 @@ def go(String branchName) {
   print "working with $branchName"
   print "doing feature testing pipeline";
   stage "testing"
-  std.runTests()
-
+  node {
+      std.runTests()
+  }
   stage "preview"
   node {}
 }
