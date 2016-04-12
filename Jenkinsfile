@@ -1,11 +1,16 @@
 #!groovy
 
 stage "develop"
+def branchName = env.BRANCH_NAME
+String[] pipelineBranches = ['develop', 'master', 'qa']
 
 node {
   checkout scm
   std = load 'ci/scripts/std.groovy'
-  print "Current branch: " + std.normalizeBranchName(env.BRANCH_NAME)
+  print "Current branch: " + std.normalizeBranchName(branchName)
+  if(pipelineBranches.containsValue(branchName)) {
+    print "doing production pipeline";
+  }
 }
 
 stage "qa"
