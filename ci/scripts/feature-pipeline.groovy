@@ -4,8 +4,7 @@ def go(String branchName) {
   print "doing feature testing pipeline";
   stage "testing"
   node {
-      scrpt = load 'ci/scripts/std.groovy'
-      scrpt.runTests()
+      std.runTests()
   }
   stage "preview"
   node {}
