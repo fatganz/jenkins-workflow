@@ -8,7 +8,7 @@ node {
   checkout scm
   std = load 'ci/scripts/std.groovy'
   print "Current branch: " + std.normalizeBranchName(branchName)
-  if(pipelineBranches.containsValue(branchName)) {
+  if(pipelineBranches.contains(branchName)) {
     print "doing production pipeline";
   }
 }
