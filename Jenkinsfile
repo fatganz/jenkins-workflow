@@ -2,17 +2,19 @@
 
 def branchName = env.BRANCH_NAME
 def pipeline
-String[] pipelineBranches = ['develop', 'master', 'qa']
+String[] pipelineBranches = ['master', 'qa']
 
 node {
   checkout scm
   utils = load 'ci/scripts/utils.groovy'
   print "Current branch: " + utils.normalizeBranchName(branchName)
-  if(pipelineBranches.contains(branchName)) {
+  if('develop' == branchName) {
     pipeline = load 'ci/scripts/production-pipeline.groovy'
-  } else {
+  } else if (!pipelineBranches.contains(branchName)) {
     pipeline = load 'ci/scripts/feature-pipeline.groovy'
   }
 }
 
-pipeline.go(branchName)
+if(pipeline){
+  pipeline.go(branchName)
+}
