@@ -10,6 +10,6 @@ if [ "develop" == "$BRANCH_NAME" ]; then
 fi
 
 git checkout develop
-git merge --no-ff $BRANCH_NAME
+git merge $BRANCH_NAME
 git branch -d $BRANCH_NAME
 git push origin :$BRANCH_NAME
