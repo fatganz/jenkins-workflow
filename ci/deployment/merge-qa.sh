@@ -15,5 +15,6 @@ git checkout $BRANCH_NAME
 git checkout qa
 git merge $BRANCH_NAME
 git commit -m "Merging branch ${BRANCH_NAME} into QA"
-git tag -a some_tag -m "feature-${BUILD_NUMBER}"
+git tag -a "feature-${BUILD_NUMBER}" -m "feature-${BUILD_NUMBER}"
 git push origin qa
+git push origin "feature-${BUILD_NUMBER}"
