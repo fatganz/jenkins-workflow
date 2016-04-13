@@ -17,9 +17,11 @@ def go(String branchName) {
   }
 
   stage "production"
-
+  input message: "Deploy QA to production?", ok: "Yes"
   node {
-    sh "ci/deployment/deploy-prod.sh"
+    sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
+      sh "ci/deployment/deploy-prod.sh"
+    }
   }
 
 }
