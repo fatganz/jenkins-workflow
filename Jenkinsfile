@@ -17,4 +17,6 @@ node {
 
 if(pipeline){
   pipeline.go(branchName)
+} else {
+  print "skipping build for this branch"
 }
