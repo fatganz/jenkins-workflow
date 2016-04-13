@@ -8,6 +8,7 @@ def go(String branchName) {
   }
 
   stage "qa"
+  input message: "Okay to merge into QA?", ok: "Yes"
   node {
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
       sh 'ci/deployment/merge-qa.sh'
@@ -16,7 +17,7 @@ def go(String branchName) {
   }
 
   stage "production"
-  input message: "Okay to merge into QA?", ok: "Yes"
+
   node {
     sh "ci/deployment/deploy-prod.sh"
   }
