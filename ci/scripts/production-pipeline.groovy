@@ -11,7 +11,7 @@ def go(String branchName) {
   input message: "Okay to merge into QA?", ok: "Yes"
   node {
     docker.image('php:5.6-cli').inside("-v ${pwd()}/app:/opt/app") {
-      sh 'php /opt/app/app.php'
+      sh 'php /opt/app/bin/app.php'
     }
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
       sh 'ci/deployment/merge-qa.sh'
