@@ -11,8 +11,9 @@ def go(String branchName) {
   input message: "Okay to merge into QA?", ok: "Yes"
   node {
     def pcImg = docker.build("toastme/app:${env.BUILD_NUMBER}", 'app')
-    pcImg.withRun("-p 8090:8080"){ c ->
-      sh "curl http://localhost:8090/hello/test/user"
+    pcImg.withRun(){ c ->
+      print "${hostIp(c)}"
+      sh "curl http://${hostIp(c)}:8080/hello/test/user"
     }
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
       sh 'ci/deployment/merge-qa.sh'
@@ -28,6 +29,11 @@ def go(String branchName) {
     }
   }
 
+}
+
+def hostIp(container) {
+  sh "docker inspect -f {{.Node.Ip}} ${container.id} > hostIp"
+  readFile('hostIp').trim()
 }
 
 return this
