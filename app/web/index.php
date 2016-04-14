@@ -1,5 +1,11 @@
 <?php
+require_once __DIR__.'/../vendor/autoload.php';
 
-$test = "Some test text";
+$app = new Silex\Application();
 
-echo $test;
+$app->get('/hello/{name}/{lastName}', function($name, $lastName) use($app) {
+    $user = new Myapp\User($name, $lastName);
+    return 'Hello ,'. $app->escape($user->getFullName());
+});
+
+$app->run();
