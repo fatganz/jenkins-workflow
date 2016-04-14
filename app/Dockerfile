@@ -1,4 +1,8 @@
 FROM php:5.6-cli
+# phpize deps
+RUN apt-get update && apt-get install -y \
+		git \
+	--no-install-recommends && rm -r /var/lib/apt/lists/*
 COPY . /opt/app
 WORKDIR /opt/app
 RUN curl -sS https://getcomposer.org/installer | php
