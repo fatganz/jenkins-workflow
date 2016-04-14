@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
-COPY . /opt/app
+VOLUME ["/opt/app"]
+EXPOSE 8080
 WORKDIR /opt/app
 RUN curl -sS https://getcomposer.org/installer | php
 RUN php composer.phar install
