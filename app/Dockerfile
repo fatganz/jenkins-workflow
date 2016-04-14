@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 COPY . /opt/app
+COPY . /opt/app
 WORKDIR /opt/app
 RUN curl -sS https://getcomposer.org/installer | php
 RUN php composer.phar install
-CMD [ "php", "-S", "0.0.0.0:8080", "./web/index.php" ]
+CMD [ "php", "-S", "0.0.0.0:8080", "-c", "configs/php.ini", "./web/index.php" ]
