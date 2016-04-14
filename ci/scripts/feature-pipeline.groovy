@@ -14,7 +14,7 @@ def go(String branchName) {
     tstImg.stop()
   } catch(e) {
   }
-  tstImg.run("--name "${branchName}"")
+  tstImg.run("--name ${branchName} -v ${pwd()}/app:/opt/app")
 
   stage "complete"
   input message: "Feature complte?", ok: "Yes"
