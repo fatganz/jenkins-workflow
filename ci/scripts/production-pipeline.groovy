@@ -10,9 +10,8 @@ def go(String branchName) {
   stage "qa"
   input message: "Okay to merge into QA?", ok: "Yes"
   node {
-    def pcImg = docker.build("toastme/app:${env.BUILD_NUMBER}", 'app')
+    def pcImg = docker.build("toastme/app:${env.BUILD_TAG}", 'app')
     pcImg.withRun(){ c ->
-      print "${hostIp(c)}"
       sh "curl http://${hostIp(c)}:8080/hello/test/user"
     }
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
@@ -32,8 +31,8 @@ def go(String branchName) {
 }
 
 def hostIp(container) {
-  sh "docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${container.id} > hostIp_${env.BUILD_NUMBER}"
-  readFile("hostIp_${env.BUILD_NUMBER}").trim()
+  sh "docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${container.id} > hostIp_${env.BUILD_TAG}"
+  readFile("hostIp_${env.BUILD_TAG}").trim()
 }
 
 return this
