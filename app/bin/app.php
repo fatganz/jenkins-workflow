@@ -1,3 +1,3 @@
 <?php
 
-echo "Tis program is PHP script"
+echo "Tis program is PHP script";
