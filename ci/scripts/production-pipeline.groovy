@@ -32,8 +32,8 @@ def go(String branchName) {
 }
 
 def hostIp(container) {
-  sh "docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${container.id} > hostIp"
-  readFile('hostIp').trim()
+  sh "docker inspect -f '{{ .NetworkSettings.IPAddress }}' ${container.id} > hostIp_${env.BUILD_NUMBER}"
+  readFile("hostIp_${env.BUILD_NUMBER}").trim()
 }
 
 return this
