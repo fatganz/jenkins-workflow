@@ -15,12 +15,13 @@ def go(String branchName) {
   def tstImg = docker.image("toastme/app-test:snapshot")
 
   stage "preview"
-  try{
-    tstImg.stop()
-  } catch(e) {
+  node {
+    try{
+      tstImg.stop()
+    } catch(e) {
+    }
+    tstImg.run("--name ${branchName} -v ${pwd()}/app:/opt/app")
   }
-  tstImg.run("--name ${branchName} -v ${pwd()}/app:/opt/app")
-
   stage "complete"
   input message: "Feature complte?", ok: "Yes"
 
@@ -29,7 +30,9 @@ def go(String branchName) {
   //     sh 'ci/deployment/merge-feature.sh'
   //   }
   // }
-  tstImg.stop();
+  node {
+    tstImg.stop();
+  }
 }
 
 def hostIp(container) {
