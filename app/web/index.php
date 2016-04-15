@@ -5,7 +5,7 @@ $app = new Silex\Application();
 
 $app->get('/hello/{name}/{lastName}', function($name, $lastName) use($app) {
     $user = new Myapp\User($name, $lastName);
-    return 'Hello1 ,'. $app->escape($user->getFullName());
+    return 'Hello ,'. $app->escape($user->getFullName());
 });
 
 $app->run();
