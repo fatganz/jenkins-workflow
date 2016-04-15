@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 COPY . /opt/app
 WORKDIR /opt/app
+EXPOSE 8080
 RUN curl -sS https://getcomposer.org/installer | php
 RUN php composer.phar install
 CMD [ "php", "-S", "0.0.0.0:8080", "-c", "configs/php.ini", "./web/index.php" ]
