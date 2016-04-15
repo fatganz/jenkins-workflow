@@ -5,18 +5,20 @@ def go(String branchName) {
   stage "testing"
   node {
     utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
-    def pcImg = docker.build("toastme/app:${env.BUILD_TAG}", 'app')
-    pcImg.inside(){
+    sh "docker build -f app/Dockerfile.preview -t toastme/app-test:develop-snapshot ."
+    def tstImg = docker.image("toastme/app-test:develop-snapshot")
+    tstImg.inside(){
       sh "bin/phpunit tests/"
     }
-    pcImg.withRun(){ c ->
-      sh "curl http://${hostIp(c)}:8080/hello/test/user"
+    tstImg.withRun(){ c ->
+      sh "curl http://${branchName}.qa.toastme.internal:8080/hello/test/user"
     }
   }
 
   stage "qa"
   input message: "Okay to merge into QA?", ok: "Yes"
   node {
+    def pcImg = docker.build("toastme/app:${env.BUILD_TAG}", 'app')
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
       sh 'ci/deployment/merge-qa.sh'
       sh "ci/deployment/deploy-qa.sh"
