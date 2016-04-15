@@ -5,6 +5,7 @@ def go(String branchName) {
   stage "testing"
   node {
     utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
+    sh "docker run --rm -v ${pwd()}/app:/app composer/composer:latest install"
     sh "docker build -f app/Dockerfile.preview -t toastme/app-test:develop-snapshot ."
     def tstImg = docker.image("toastme/app-test:develop-snapshot")
     tstImg.inside(){
