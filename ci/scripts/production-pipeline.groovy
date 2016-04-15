@@ -8,7 +8,7 @@ def go(String branchName) {
     sh "docker build -f app/Dockerfile.preview -t toastme/app-test:develop-snapshot ."
     def tstImg = docker.image("toastme/app-test:develop-snapshot")
     tstImg.inside(){
-      sh "bin/phpunit tests/"
+      sh "cd app/ && bin/phpunit tests/"
     }
     tstImg.withRun(){ c ->
       sh "curl http://${branchName}.qa.toastme.internal:8080/hello/test/user"
