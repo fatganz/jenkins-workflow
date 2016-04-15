@@ -10,9 +10,3 @@ services:
      - redis
   redis:
     image: redis
-
-networks:
-  default:
-    #driver: bridge
-    external:
-      name: nginx-proxy
