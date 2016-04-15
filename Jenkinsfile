@@ -16,7 +16,7 @@ node {
 }
 
 if(pipeline){
-  pipeline.go(branchName)
+  pipeline.go(utils.normalizeBranchName(branchName))
 } else {
   print "skipping build for this branch"
 }
