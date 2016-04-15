@@ -4,17 +4,19 @@ utils = load 'ci/scripts/utils.groovy'
 def go(String branchName) {
   stage "testing"
   node {
-    utils.runTests()
+    utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
+    def pcImg = docker.build("toastme/app:${env.BUILD_TAG}", 'app')
+    pcImg.inside(){
+      sh "bin/phpunit tests/"
+    }
+    pcImg.withRun(){ c ->
+      sh "curl http://${hostIp(c)}:8080/hello/test/user"
+    }
   }
 
   stage "qa"
   input message: "Okay to merge into QA?", ok: "Yes"
   node {
-    utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
-    def pcImg = docker.build("toastme/app:${env.BUILD_TAG}", 'app')
-    pcImg.withRun(){ c ->
-      sh "curl http://${hostIp(c)}:8080/hello/test/user"
-    }
     sshagent (credentials: ['5cfc7cca-6168-4848-b3ef-9aa628a780bd']) {
       sh 'ci/deployment/merge-qa.sh'
       sh "ci/deployment/deploy-qa.sh"
