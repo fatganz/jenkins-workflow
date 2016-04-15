@@ -12,7 +12,7 @@ def go(String branchName) {
     sh "docker run --rm -v ${pwd()}/app:/app composer/composer:latest install"
     sh "docker run -v ${pwd()}/app:/app phpunit/phpunit --bootstrap vendor/autoload.php tests/"
     withEnv(["COMPOSE_VIRTUAL_HOST=${branchName}.qa.toastme.internal"]){
-      sh "docker-compose -p $branchName -f docker-compose-feature.yml up -d "
+      sh "docker-compose -p $branchName -f docker-compose-feature.yml up -d --build"
     }
     // sh "docker build -f app/Dockerfile.preview -t toastme/app-test:$branchName-snapshot ."
     // tstImg = docker.image("toastme/app-test:$branchName-snapshot")
