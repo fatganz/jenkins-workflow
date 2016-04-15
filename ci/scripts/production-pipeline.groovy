@@ -10,8 +10,7 @@ def go(String branchName) {
     sh "docker build -f app/Dockerfile.preview -t toastme/app-test:develop-snapshot ."
     def tstImg = docker.image("toastme/app-test:develop-snapshot")
 
-    tstImg.withRun(){ c ->
-      sleep 5
+    tstImg.withRun("--name $branchName" ){ c ->
       sh "curl http://${branchName}.qa.toastme.internal/hello/test/user"
     }
   }
