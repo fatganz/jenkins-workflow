@@ -1,6 +1,7 @@
 #!groovy
 
 utils = load 'ci/scripts/utils.groovy'
+def c;
 
 def go(String branchName) {
   print "Faeture testing $branchName"
@@ -19,7 +20,7 @@ def go(String branchName) {
     } catch(e) {
       print "${branchName} container is not running!"
     }
-    tstImg.run("--name ${branchName} -v ${pwd()}/app:/opt/app")
+    c = tstImg.run("--name ${branchName} -v ${pwd()}/app:/opt/app")
   }
   stage "complete"
   input message: "Feature complte?", ok: "Yes"
@@ -30,7 +31,7 @@ def go(String branchName) {
   //   }
   // }
   node {
-    tstImg.stop();
+    c.stop();
   }
 }
 
