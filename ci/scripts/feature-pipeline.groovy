@@ -9,7 +9,7 @@ def go(String branchName) {
   stage "testing"
 
   node {
-    sh "docker build -t toastme/app-test:snapshot -f app/Dockerfile.preview"
+    sh "docker build -f app/Dockerfile.preview -t toastme/app-test:snapshot ."
   }
 
   def tstImg = docker.image("toastme/app-test:snapshot")
