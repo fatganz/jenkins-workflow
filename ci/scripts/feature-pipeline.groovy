@@ -14,6 +14,10 @@ def go(String branchName) {
     tstImg.inside(){
       sh "cd app/ && bin/phpunit tests/"
     }
+
+    tstImg.withRun(){ c ->
+      sh "curl http://${branchName}.qa.toastme.internal/hello/test/user"
+    }
   }
   stage "preview"
   node {

@@ -12,7 +12,7 @@ def go(String branchName) {
       sh "cd app/ && bin/phpunit tests/"
     }
     tstImg.withRun(){ c ->
-      sh "curl http://${branchName}.qa.toastme.internal:8080/hello/test/user"
+      sh "curl http://${branchName}.qa.toastme.internal/hello/test/user"
     }
   }
 
