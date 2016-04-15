@@ -13,4 +13,6 @@ services:
 
 networks:
   default:
-    driver: bridge
+    #driver: bridge
+    external:
+      name: nginx-proxy
