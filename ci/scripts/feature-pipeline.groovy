@@ -1,13 +1,10 @@
 #!groovy
 
 utils = load 'ci/scripts/utils.groovy'
-branchName = utils.normalizeBranchName(env.BRANCH_NAME)
 
 def go(String branchName) {
-  print "working with $branchName"
-  print "doing feature testing pipeline";
+  print "Faeture testing $branchName"
   stage "testing"
-
   node {
     sh "docker build -f app/Dockerfile.preview -t toastme/app-test:snapshot ."
   }
@@ -17,8 +14,10 @@ def go(String branchName) {
   stage "preview"
   node {
     try{
+      print "Stopping ${branchName} container..."
       tstImg.stop()
     } catch(e) {
+      print "${branchName} container is not running!"
     }
     tstImg.run("--name ${branchName} -v ${pwd()}/app:/opt/app")
   }
