@@ -3,17 +3,16 @@
 utils = load 'ci/scripts/utils.groovy'
 
 def go(String branchName) {
+  def tstImg
   print "Faeture testing $branchName"
   stage "testing"
   node {
     checkout scm
     utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
     sh "docker run --rm -v ${pwd()}/app:/app composer/composer:latest install"
-    sh "docker build -f app/Dockerfile.preview -t toastme/app-test:snapshot ."
-    def tstImg = docker.image("toastme/app-test:snapshot")
-    tstImg.inside(){
-      sh "cd app/ && bin/phpunit tests/"
-    }
+    sh "docker run -v ${pwd()}/app:/app phpunit/phpunit --bootstrap vendor/autoload.php tests/"
+    sh "docker build -f app/Dockerfile.preview -t toastme/app-test:$branchName-snapshot ."
+    tstImg = docker.image("toastme/app-test:$branchName-snapshot")
   }
   stage "preview"
   node {
