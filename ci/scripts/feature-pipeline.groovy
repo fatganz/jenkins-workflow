@@ -10,7 +10,7 @@ def go(String branchName) {
     checkout scm
     utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
     sh "docker run --rm -v ${pwd()}/app:/app composer/composer:latest install"
-    sh "docker run -v ${pwd()}/app/tests:/app phpunit/phpunit run"
+    sh "docker run -v ${pwd()}/app:/app phpunit/phpunit --bootstrap vendor/autoload.php tests/"
     sh "docker build -f app/Dockerfile.preview -t toastme/app-test:$branchName-snapshot ."
     tstImg = docker.image("toastme/app-test:$branchName-snapshot")
   }
