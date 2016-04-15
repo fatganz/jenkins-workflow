@@ -11,7 +11,7 @@ def go(String branchName) {
     utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
     sh "docker run --rm -v ${pwd()}/app:/app composer/composer:latest install"
     sh "docker run -v ${pwd()}/app:/app phpunit/phpunit --bootstrap vendor/autoload.php tests/"
-    sh "docker-compose -f docker-compose-feature.yml up -d -p $branchName"
+    sh "docker-compose -p $branchName -f docker-compose-feature.yml up -d "
     // sh "docker build -f app/Dockerfile.preview -t toastme/app-test:$branchName-snapshot ."
     // tstImg = docker.image("toastme/app-test:$branchName-snapshot")
   }
