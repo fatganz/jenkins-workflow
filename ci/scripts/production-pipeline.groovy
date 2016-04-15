@@ -10,6 +10,7 @@ def go(String branchName) {
   stage "qa"
   input message: "Okay to merge into QA?", ok: "Yes"
   node {
+    utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
     def pcImg = docker.build("toastme/app:${env.BUILD_TAG}", 'app')
     pcImg.withRun(){ c ->
       sh "curl http://${hostIp(c)}:8080/hello/test/user"

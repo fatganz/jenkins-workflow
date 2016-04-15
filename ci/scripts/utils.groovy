@@ -12,4 +12,8 @@ def runTests() {
   sh "tests/run.sh"
 }
 
+def writeVersionPhpFile(path, version) {
+  writeFile file:"${path}/version.php", text:"<?php define('VERSION', '${version}');"
+}
+
 return this
