@@ -7,7 +7,12 @@ def go(String branchName) {
   print "working with $branchName"
   print "doing feature testing pipeline";
   stage "testing"
-  def tstImg = docker.build("toastme/app-test:snapshot", 'app/preview')
+
+  node {
+    sh "docker build -t toastme/app-test:snapshot -f app/Dockerfile.preview"
+  }
+
+  def tstImg = docker.image("toastme/app-test:snapshot")
 
   stage "preview"
   try{
