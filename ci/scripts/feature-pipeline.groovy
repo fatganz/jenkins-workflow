@@ -20,7 +20,7 @@ def go(String branchName) {
     } catch(e) {
       print "${branchName} container is not running!"
     }
-    c = tstImg.run("--name ${branchName} -v ${pwd()}/app:/opt/app")
+    c = tstImg.run("--name ${branchName} -e VIRTUAL_HOST=${branchName}.qa.internal")
   }
   stage "complete"
   input message: "Feature complte?", ok: "Yes"
