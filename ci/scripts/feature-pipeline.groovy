@@ -6,10 +6,10 @@ def go(String branchName) {
   print "Faeture testing $branchName"
   stage "testing"
   node {
-    writeFile file:'app/web/version.php', text:"<?php define('VERSION', '${env.BUILD_TAG}')"
+
     sh "docker build -f app/Dockerfile.preview -t toastme/app-test:snapshot ."
   }
-
+  utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
   def tstImg = docker.image("toastme/app-test:snapshot")
 
 
