@@ -1,7 +1,6 @@
 #!groovy
 
 utils = load 'ci/scripts/utils.groovy'
-def c;
 
 def go(String branchName) {
   print "Faeture testing $branchName"
@@ -12,11 +11,12 @@ def go(String branchName) {
 
   def tstImg = docker.image("toastme/app-test:snapshot")
 
+
   stage "preview"
   node {
     try{
       print "Stopping ${branchName} container..."
-      tstImg.stop()
+      stopContainer(branchName)
     } catch(e) {
       print "${branchName} container is not running!"
     }
@@ -31,8 +31,12 @@ def go(String branchName) {
   //   }
   // }
   node {
-    c.stop();
+    stopContainer(branchName)
   }
+}
+
+def stopContainer(containerId) {
+  sh "docker stop ${containerId} && docker rm -f ${containerId}"
 }
 
 def hostIp(container) {
