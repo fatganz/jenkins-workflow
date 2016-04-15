@@ -13,7 +13,7 @@ def runTests() {
 }
 
 def writeVersionPhpFile(path, version) {
-  writeFile file:'${path}/version.php', text:"<?php define('VERSION', '${version}');"
+  writeFile file:"${path}/version.php", text:"<?php define('VERSION', '${version}');"
 }
 
 return this
