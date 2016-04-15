@@ -11,6 +11,7 @@ def go(String branchName) {
     def tstImg = docker.image("toastme/app-test:develop-snapshot")
 
     tstImg.withRun(){ c ->
+      sleep 5
       sh "curl http://${branchName}.qa.toastme.internal/hello/test/user"
     }
   }
