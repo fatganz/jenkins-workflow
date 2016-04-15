@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.preview
+      dockerfile: app/Dockerfile.preview
     ports:
      - "8080:8080"
     depends_on:
