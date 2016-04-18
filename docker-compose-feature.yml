@@ -1,0 +1,19 @@
+version: '2'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: app/Dockerfile.preview
+    environment:
+      VIRTUAL_HOST: $COMPOSE_VIRTUAL_HOST
+      BUILD_TAG: $BUILD_TAG
+    depends_on:
+     - redis
+  redis:
+    image: redis
+
+networks:
+  default:
+    #driver: bridge
+    external:
+      name: nginx-proxy

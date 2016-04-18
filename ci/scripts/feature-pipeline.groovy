@@ -8,21 +8,23 @@ def go(String branchName) {
   stage "testing"
   node {
     checkout scm
-    utils.writeVersionPhpFile('app/web', env.BUILD_TAG);
     sh "docker run --rm -v ${pwd()}/app:/app composer/composer:latest install"
     sh "docker run -v ${pwd()}/app:/app phpunit/phpunit --bootstrap vendor/autoload.php tests/"
-    sh "docker build -f app/Dockerfile.preview -t toastme/app-test:$branchName-snapshot ."
-    tstImg = docker.image("toastme/app-test:$branchName-snapshot")
+    withEnv(["COMPOSE_VIRTUAL_HOST=${branchName}.qa.toastme.internal", "BUILD_TAG=${env.BUILD_TAG}"]){
+      sh "docker-compose -p $branchName -f docker-compose-feature.yml up -d --build"
+    }
+    // sh "docker build -f app/Dockerfile.preview -t toastme/app-test:$branchName-snapshot ."
+    // tstImg = docker.image("toastme/app-test:$branchName-snapshot")
   }
   stage "preview"
   node {
-    try{
-      print "Stopping ${branchName} container..."
-      stopContainer(branchName)
-    } catch(e) {
-      print "${branchName} container is not running!"
-    }
-    c = tstImg.run("--name ${branchName} -e VIRTUAL_HOST=${branchName}.qa.toastme.internal")
+    // try{
+    //   print "Stopping ${branchName} container..."
+    //   stopContainer(branchName)
+    // } catch(e) {
+    //   print "${branchName} container is not running!"
+    // }
+    // c = tstImg.run("--name ${branchName} -e VIRTUAL_HOST=${branchName}.qa.toastme.internal")
   }
   stage "complete"
   input message: "Feature complte?", ok: "Yes"
@@ -33,7 +35,10 @@ def go(String branchName) {
   //   }
   // }
   node {
-    stopContainer(branchName)
+    withEnv(["COMPOSE_VIRTUAL_HOST=${branchName}.qa.toastme.internal"]){
+      sh "docker-compose -f docker-compose-feature.yml -p $branchName stop"
+    }
+    // stopContainer(branchName)
   }
 }
 

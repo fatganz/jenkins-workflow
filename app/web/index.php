@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
-require_once 'version.php';
+define("VERSION", getenv("BUILD_TAG"));
 
 $app = new Silex\Application();
 
 $app->get('/hello/{name}/{lastName}', function($name, $lastName) use($app) {
     $user = new Myapp\User($name, $lastName);
-    return 'Hello, '. $app->escape($user->getFullName()) . "! version: " . VERSION;
+    return 'Hello 4, '. $app->escape($user->getFullName()) . "! version: " . VERSION;
 });
 
 $app->run();
