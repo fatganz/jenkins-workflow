@@ -12,7 +12,7 @@ def go(String branchName) {
     sh "docker run -v ${pwd()}/app:/app phpunit/phpunit --bootstrap vendor/autoload.php tests/"
     withEnv([
       "COMPOSE_VIRTUAL_HOST=${branchName}.qa.toastme.internal",
-      "BUILD_TAG=${env.BUILD_TAG}"
+      "BUILD_TAG=${env.BUILD_TAG}",
       "COMPOSE_VOLUME_DIR=${pwd()}/app"
       ]){
       sh "docker-compose -p $branchName -f docker-compose-feature.yml up -d --build"
